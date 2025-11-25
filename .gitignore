@@ -1,0 +1,38 @@
+# Build output
+bin/
+
+# Simulator data
+.Garmin/
+
+# SDK and tools
+.vscode/settings.json
+
+# macOS
+.DS_Store
+
+# Editor/IDE specific
+*.swp
+*.swo
+*~
+.idea/
+
+# Compiled/binary files
+*.prg
+*.iq
+
+# Test output
+.tests/
+
+# Developer keys (keep private!)
+source/developer_key
+**/developer_key
+*.der
+
+# Generated files
+source/gen/
+source/mir/
+source/internal-mir/
+
+# Build artifacts
+*.prg.debug.xml
+*-settings.json
