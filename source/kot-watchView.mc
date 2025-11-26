@@ -132,8 +132,9 @@ class kot_watchView extends WatchUi.WatchFace {
 
         // Get and display the date
         var today = Time.today();
-        var info = Time.Gregorian.info(today, Time.FORMAT_MEDIUM);
-        var dateString = Lang.format("$1$ $2$ $3$", [info.day_of_week, info.month, info.day]);
+        var infoMed = Time.Gregorian.info(today, Time.FORMAT_MEDIUM);
+        var info = Time.Gregorian.info(today, Time.FORMAT_SHORT);
+        var dateString = Lang.format("$1$ $2$/$3$", [infoMed.day_of_week, info.month, info.day]);
         var dateView = View.findDrawableById("DateLabel") as Text;
         dateView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
         dateView.setText(dateString);
