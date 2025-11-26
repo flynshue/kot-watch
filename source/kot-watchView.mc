@@ -142,24 +142,41 @@ class kot_watchView extends WatchUi.WatchFace {
         var bottomDataFieldChoice = Application.Properties.getValue("BottomDataField");
         var bottomDataView = View.findDrawableById("BottomDataLabel") as Text;
         bottomDataView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
-        bottomDataView.setText(getDataField(bottomDataFieldChoice));
+        var bottomDataText = getDataField(bottomDataFieldChoice);
+        bottomDataView.setText(bottomDataText);
 
         // Get and display the left data field based on user setting
         var leftDataFieldChoice = Application.Properties.getValue("LeftDataField");
         var leftDataView = View.findDrawableById("LeftDataLabel") as Text;
         leftDataView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
-        leftDataView.setText(getDataField(leftDataFieldChoice));
+        var leftDataText = getDataField(leftDataFieldChoice);
+        leftDataView.setText(leftDataText);
 
         // Get and display the right data field based on user setting
         var rightDataFieldChoice = Application.Properties.getValue("RightDataField");
         var rightDataView = View.findDrawableById("RightDataLabel") as Text;
         rightDataView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
-        rightDataView.setText(getDataField(rightDataFieldChoice));
+        var rightDataText = getDataField(rightDataFieldChoice);
+        rightDataView.setText(rightDataText);
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
-        drawDataFieldIcons(dc, bottomDataFieldChoice, 235, 360);
-        drawDataFieldIcons(dc, leftDataFieldChoice, 50, 200);
-        drawDataFieldIcons(dc, rightDataFieldChoice, 375, 200);
+
+        var iconOffset = 40;
+
+        // Bottom data field (center-aligned)
+        var bottomTextDim = dc.getTextDimensions(bottomDataText, Graphics.FONT_XTINY);
+        var bottomIconX = (dc.getWidth() / 2) - (bottomTextDim[0] / 2) - iconOffset;
+        drawDataFieldIcons(dc, bottomDataFieldChoice, bottomIconX, 360);
+
+        // Left field
+        var leftTextDim = dc.getTextDimensions(leftDataText, Graphics.FONT_XTINY);
+        var leftIconX = 20;
+        drawDataFieldIcons(dc, leftDataFieldChoice, leftIconX, 200);
+
+        // Right field
+        var rightTextDim = dc.getTextDimensions(rightDataText, Graphics.FONT_XTINY);
+        var rightIconX = 396 - rightTextDim[0] - 40;
+        drawDataFieldIcons(dc, rightDataFieldChoice, rightIconX, 200);
     }
 
     // Called when this View is removed from the screen. Save the
