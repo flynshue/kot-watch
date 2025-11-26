@@ -5,6 +5,9 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Activity;
 import Toybox.ActivityMonitor;
+import Toybox.Time.Gregorian;
+import Toybox.UserProfile;
+import Toybox.Math;
 
 class kot_watchView extends WatchUi.WatchFace {
 
@@ -22,6 +25,69 @@ class kot_watchView extends WatchUi.WatchFace {
     // loading resources into memory.
     function onShow() as Void {
     }
+
+    function getHeartRate() as String {
+        var heartRate = Activity.getActivityInfo().currentHeartRate;
+        if (heartRate != null) {
+            return Lang.format("$1$ bpm", [heartRate]);
+        } else {
+            return "-- ";
+        }
+    }
+
+    function getActiveCalories() as String {
+        var totalCalories = ActivityMonitor.getInfo().calories;
+        var profile = UserProfile.getProfile();
+        var today = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+        var age = today.year - profile.birthYear;
+        var weight = profile.weight / 1000.0;
+        var restCalories;
+        if (profile.gender == UserProfile.GENDER_MALE) {
+            restCalories = 5.2 - 6.116*age + 7.628*profile.height + 12.2*weight;
+        } else {
+            restCalories = 197.6 - 6.116*age + 7.628*profile.height + 12.2*weight;
+        }
+        var minutesSinceMidnight = today.hour * 60 + today.min;
+        restCalories = Math.round(minutesSinceMidnight * restCalories / 1440).toNumber();
+        var activeCalories = totalCalories - restCalories;
+        return Lang.format("$1$", [totalCalories]);
+        // return Lang.format("$1$", [activeCalories]);
+    }
+
+    function getDataField(fieldChoice as Number) as String {
+        var activityInfo = ActivityMonitor.getInfo();
+        if (fieldChoice == 0 ) {
+            // Steps
+            return Lang.format("$1$", [activityInfo.steps]);
+        } else if (fieldChoice == 1) {
+            // Heart Rate
+            return getHeartRate();
+        } else if (fieldChoice == 2) {
+            // Active Calories
+            return getActiveCalories();
+        } else {
+            // Weather
+            return "Weather TBD";
+        }
+    }
+
+    function drawDataFieldIcons(dc as Dc, fieldChoice as Number, x as Number, y as Number) as Void {
+        var icon = null;
+        if (fieldChoice == 0) {
+            // Steps icon
+            icon = Application.loadResource(Rez.Drawables.StepsIcon);
+            dc.drawBitmap(x,y, icon);
+        } else if (fieldChoice == 1) {
+            // Heart rate icon
+            icon = Application.loadResource(Rez.Drawables.HeartRateIcon);
+            dc.drawBitmap(x,y, icon);
+        } else if (fieldChoice == 2) {
+            // Active calories icon
+            icon = Application.loadResource(Rez.Drawables.CaloriesIcon);
+            dc.drawBitmap(x, y, icon);
+        }
+    }
+
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
@@ -73,39 +139,27 @@ class kot_watchView extends WatchUi.WatchFace {
         dateView.setText(dateString);
 
         // Get and display the bottom data field based on user setting
-        var dataFieldChoice = Application.Properties.getValue("BottomDataField");
-        var activityInfo = ActivityMonitor.getInfo();
-        var dataString = "";
-        if (dataFieldChoice == 0) {
-            // Steps
-            dataString = Lang.format("$1$ Steps", [activityInfo.steps]);
-        } else if (dataFieldChoice == 1) {
-            // Heart Rate
-            var heartRate = Activity.getActivityInfo().currentHeartRate;
-            if (heartRate != null) {
-                dataString = Lang.format("$1$ bpm", [heartRate]);
-            } else {
-                dataString = "-- bpm";
-            }
-        } else if (dataFieldChoice == 2) {
-            // Calories
-            // dataString = Lang.format("$1$ cal", [activityInfo.activeMinutesDay.total != null ? activityInfo.activeMinutesDay.total : 0]);
-            dataString = Lang.format("$1$ cal", [activityInfo.activeMinutesDay.total]);
-        } else if (dataFieldChoice == 3) {
-            // Totla calories
-            dataString = Lang.format("$1$ cal", [activityInfo.calories]);
-        } else if (dataFieldChoice == 4) {
-            // Weather
-            dataString = "Weather TBD";
+        var bottomDataFieldChoice = Application.Properties.getValue("BottomDataField");
+        var bottomDataView = View.findDrawableById("BottomDataLabel") as Text;
+        bottomDataView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
+        bottomDataView.setText(getDataField(bottomDataFieldChoice));
 
-        }
+        // Get and display the left data field based on user setting
+        var leftDataFieldChoice = Application.Properties.getValue("LeftDataField");
+        var leftDataView = View.findDrawableById("LeftDataLabel") as Text;
+        leftDataView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
+        leftDataView.setText(getDataField(leftDataFieldChoice));
 
-        var dataView = View.findDrawableById("BottomDataLabel") as Text;
-        dataView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
-        dataView.setText(dataString);
-
+        // Get and display the right data field based on user setting
+        var rightDataFieldChoice = Application.Properties.getValue("RightDataField");
+        var rightDataView = View.findDrawableById("RightDataLabel") as Text;
+        rightDataView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
+        rightDataView.setText(getDataField(rightDataFieldChoice));
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
+        drawDataFieldIcons(dc, bottomDataFieldChoice, 235, 360);
+        drawDataFieldIcons(dc, leftDataFieldChoice, 50, 200);
+        drawDataFieldIcons(dc, rightDataFieldChoice, 375, 200);
     }
 
     // Called when this View is removed from the screen. Save the

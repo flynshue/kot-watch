@@ -6,6 +6,7 @@ bin/
 
 # SDK and tools
 .vscode/settings.json
+.vscode/launch.json
 
 # macOS
 .DS_Store

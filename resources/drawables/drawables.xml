@@ -1,7 +1,10 @@
 <drawables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
     <bitmap id="LauncherIcon" filename="launcher_icon.svg" dithering="none" />
-    <bitmap id="BatteryFull" filename="../images/battery.png" />
-    <bitmap id="BatteryHigh" filename="../images/battery-high.png" />
-    <bitmap id="BatteryMedium" filename="../images/battery-medium.png" />
-    <bitmap id="BatteryLow" filename="../images/battery-low.png" />
+    <bitmap id="BatteryFull" filename="../images/battery-android-full.png" />
+    <bitmap id="BatteryHigh" filename="../images/battery-android-high.png" />
+    <bitmap id="BatteryMedium" filename="../images/battery-android-medium.png" />
+    <bitmap id="BatteryLow" filename="../images/battery-android-low.png" />
+    <bitmap id="StepsIcon" filename="../images/steps.png" />
+    <bitmap id="HeartRateIcon" filename="../images/heart-rate.png" />
+    <bitmap id="CaloriesIcon" filename="../images/fire.png" />
 </drawables>
