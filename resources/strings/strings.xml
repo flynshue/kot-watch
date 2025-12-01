@@ -13,9 +13,11 @@
     <string id="ColorBlue">Blue</string>
     <string id="ColorRed">Red</string>
     <string id="BottomDataFieldTitle">Bottom Data Field</string>
+    <string id="LeftDataFieldTitle">Left Data Field</string>
+    <string id="RightDataFieldTitle">Right Data Field</string>
     <string id="DataFieldSteps">Steps</string>
     <string id="DataFieldHeartRate">Heart Rate</string>
     <string id="DataFieldActiveCalories">Active Calories</string>
-    <string id="DataFieldTotalCalories">Total Calories</string>
+    <!-- <string id="DataFieldTotalCalories">Total Calories</string> -->
     <string id="DataFieldWeather">Weather</string>
 </strings>

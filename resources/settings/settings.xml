@@ -26,8 +26,23 @@
             <listEntry value="0">@Strings.DataFieldSteps</listEntry>
             <listEntry value="1">@Strings.DataFieldHeartRate</listEntry>
             <listEntry value="2">@Strings.DataFieldActiveCalories</listEntry>
-            <listEntry value="3">@Strings.DataFieldTotalCalories</listEntry>
-            <listEntry value="4">@Strings.DataFieldWeather</listEntry>
+            <listEntry value="3">@Strings.DataFieldWeather</listEntry>
+        </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.LeftDataField" title="@Strings.LeftDataFieldTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.DataFieldSteps</listEntry>
+            <listEntry value="1">@Strings.DataFieldHeartRate</listEntry>
+            <listEntry value="2">@Strings.DataFieldActiveCalories</listEntry>
+            <listEntry value="3">@Strings.DataFieldWeather</listEntry>
+        </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.RightDataField" title="@Strings.RightDataFieldTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.DataFieldSteps</listEntry>
+            <listEntry value="1">@Strings.DataFieldHeartRate</listEntry>
+            <listEntry value="2">@Strings.DataFieldActiveCalories</listEntry>
+            <listEntry value="3">@Strings.DataFieldWeather</listEntry>
         </settingConfig>
     </setting>
 </settings>
